@@ -1,47 +1,24 @@
 package com.alexander.nazarov.ticktacktoe;
 
-import android.annotation.SuppressLint;
-import android.graphics.Color;
-import android.support.annotation.RequiresApi;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.Gravity;
-import android.view.MotionEvent;
-import android.view.View;
-
-/**
- * IMPORTANT: Make sure you are using the correct package name.
- * This example uses the package name:
- * package com.example.android.justjava
- * If you get an error when copying this code into Android studio, update it to match teh package name found
- * in the project's AndroidManifest.xml file.
- **/
-
-import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.util.ArrayList;
 
-/**
- * This app displays an order form to order coffee.
- */
-
 public class FullscreenActivity extends AppCompatActivity {
-    static ArrayList<Button> buttons= new ArrayList<>();
-    static String lastCommand = "O";
-    int lightBlue = 0xeccff;
-    int x = 0;
-    int o = 0;
-    int round = 1;
-    static int turn = 0;
-    Toast winner;
 
+    private static ArrayList<Button> buttons = new ArrayList<>();
+    private static String lastCommand = "O"; //за кем был последний ход
+    private static int x = 0;   //счетчик побед крестиков
+    private static int o = 0;   //счетчик побед ноликов
+    private static int round = 1;   //счетчик раундов
+    private static int turn = 0;    //счетчик ходов
+    private static Toast winner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,16 +26,8 @@ public class FullscreenActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
     }
 
-    /**
-     * This method is called when the order button is clicked.
-     */
-    public void threePointsA(View view) {
+//========================Нажимаем на кнопку========================
 
-    }
-
-    /**
-     * This method displays the given quantity value on the screen.
-     */
     public void pushButton(View view) {
         Button b1 = (Button) findViewById(R.id.first_button);
         buttons.add(b1);
@@ -80,6 +49,8 @@ public class FullscreenActivity extends AppCompatActivity {
         buttons.add(b9);
         TextView score = (TextView) findViewById(R.id.score);
         TextView round_text = (TextView) findViewById(R.id.round_text);
+
+//==============Определяем, на какую именно кнопку нажали===============
 
         switch (view.getId()) {
             case R.id.first_button:
@@ -110,6 +81,9 @@ public class FullscreenActivity extends AppCompatActivity {
                 turn(b9);
                 break;
         }
+
+//=========================Победа Крестиков=========================
+
         if ((b1.getText().equals("X") && b2.getText().equals("X") && b3.getText().equals("X")) ||
                 (b1.getText().equals("X") && b5.getText().equals("X") && b9.getText().equals("X")) ||
                 (b1.getText().equals("X") && b4.getText().equals("X") && b7.getText().equals("X")) ||
@@ -118,13 +92,14 @@ public class FullscreenActivity extends AppCompatActivity {
                 (b3.getText().equals("X") && b6.getText().equals("X") && b9.getText().equals("X")) ||
                 (b4.getText().equals("X") && b5.getText().equals("X") && b6.getText().equals("X")) ||
                 (b7.getText().equals("X") && b8.getText().equals("X") && b9.getText().equals("X"))) {
-
             turn = 0;
             round++;
             x++;
             score.setText(x + " : " + o);
             winner("Крестики");
             round_text.setText("РАУНД " + round);
+
+//==========================Победа Ноликов==========================
 
         } else if (b1.getText().equals("O") && b2.getText().equals("O") && b3.getText().equals("O") ||
                 b1.getText().equals("O") && b5.getText().equals("O") && b9.getText().equals("O") ||
@@ -134,13 +109,15 @@ public class FullscreenActivity extends AppCompatActivity {
                 b3.getText().equals("O") && b6.getText().equals("O") && b9.getText().equals("O") ||
                 b4.getText().equals("O") && b5.getText().equals("O") && b6.getText().equals("O") ||
                 b7.getText().equals("O") && b8.getText().equals("O") && b9.getText().equals("O")) {
-
             turn = 0;
             o++;
             score.setText(x + " : " + o);
             winner("Нолики");
             round++;
             round_text.setText("РАУНД " + round);
+
+//==============================Ничья==============================
+
         } else if (turn == 9) {
             winner("");
             turn = 0;
@@ -148,6 +125,8 @@ public class FullscreenActivity extends AppCompatActivity {
             round_text.setText("РАУНД " + round);
         }
     }
+
+//=========================Проверяем, чей ход======================
 
     private void turn(Button button) {
         TextView turn_text = (TextView) findViewById(R.id.turn_text);
@@ -163,76 +142,43 @@ public class FullscreenActivity extends AppCompatActivity {
             turn++;
         }
         button.setEnabled(false);
-      }
-     static class ClearField {
-          public static void clearField() {
-              for (int i = 0; i < buttons.size(); i++) {
-                  buttons.get(i).setText("");
-                  buttons.get(i).setEnabled(true);
+    }
 
-              }
-          }
-      }
+//================Очистка всего поля для новой игры=================
 
-      private void winner(String win){
-          for (int i = 0; i < buttons.size(); i++) {
-              buttons.get(i).setEnabled(false);
-          }
-        if(!(turn == 9)) {
+    public static void clearField() {
+        for (int i = 0; i < buttons.size(); i++) {
+            buttons.get(i).setText("");
+            buttons.get(i).setEnabled(true);
+        }
+    }
+
+//===============Вывод во всплывающем сообщении победителя===========
+
+    private void winner(String win) {
+        for (int i = 0; i < buttons.size(); i++) {
+            buttons.get(i).setEnabled(false);
+        }
+        if (!(turn == 9)) {
             winner = Toast.makeText(getApplicationContext(),
                     "Победили " + win + "!", Toast.LENGTH_SHORT);
 
-        }
-        else if (turn==9){
+        } else if (turn == 9) {
             winner = Toast.makeText(getApplicationContext(),
                     "Ничья", Toast.LENGTH_SHORT);
         }
 
+        winner.setGravity(Gravity.CENTER, 0, 0);
+        winner.show();
 
-          winner.setGravity(Gravity.CENTER, 0, 0);
-          winner.show();
+//================Делаем паузу перед началом следующего раунда=========
 
-          Handler h = new Handler();
-          h.postDelayed(new Runnable() {
-              @Override
-              public void run() {
-                  ClearField.clearField();
-              }
-          }, 2000);
-
-      }
-
-
-//        if(lastCommand.equals("O")){
-//        button.setText("X");
-//        lastCommand = "X";}
-//        else {
-//            button.setText("O");
-//            lastCommand = "O";
-//        }
-//        button.setEnabled(false);
-
-//    public void pushSecondButton(View view) {
-//        Button button = (Button) findViewById(R.id.second_button);
-//        if(lastCommand.equals("O")){
-//            button.setText("X");
-//            lastCommand = "X";}
-//        else {
-//            button.setText("O");
-//            lastCommand = "O";
-//        }
-//        button.setEnabled(false);
-//    }
-//    public void pushThirdButton(View view) {
-//        Button button = (Button) findViewById(R.id.third_button);
-//        if(lastCommand.equals("O")){
-//            button.setText("X");
-//            lastCommand = "X";}
-//        else {
-//            button.setText("O");
-//            lastCommand = "O";
-//        }
-//        button.setEnabled(false);
-//    }
+        Handler h = new Handler();
+        h.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                clearField();
+            }
+        }, 2000);
+    }
 }
-
