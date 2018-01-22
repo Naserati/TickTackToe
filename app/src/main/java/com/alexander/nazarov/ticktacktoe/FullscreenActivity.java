@@ -14,24 +14,21 @@ import java.util.Random;
 
 public class FullscreenActivity extends AppCompatActivity {
 
-    private static ArrayList<Button> buttons = new ArrayList<>();
+    private ArrayList<Button> buttons = new ArrayList<>();
     private Button b1, b2, b3, b4, b5, b6, b7, b8, b9, randomB;
-    private TextView score, round_text;
-    private static String lastCommand = "O"; //за кем был последний ход
-    private static int x = 0;   //счетчик побед крестиков
-    private static int o = 0;   //счетчик побед ноликов
-    private static int round = 1;   //счетчик раундов
-    private static int turn = 0;    //счетчик ходов
-    private static Toast winner;
-    private static boolean win = false;
-    TextView turn_text;
+    private TextView score, round_text, turn_text;
+    private String lastCommand = "O"; //за кем был последний ход
+    private int x = 0;   //счетчик побед крестиков
+    private int o = 0;   //счетчик побед ноликов
+    private int round = 1;   //счетчик раундов
+    private int turn = 0;    //счетчик ходов
+    private Toast winner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
     }
-
 //========================Нажимаем на кнопку========================
 
     public void pushButton(View view) {
@@ -87,7 +84,6 @@ public class FullscreenActivity extends AppCompatActivity {
                 turn(b9);
                 break;
         }
-
 //=========================Победа Крестиков=========================
 
         if ((b1.getText().equals("X") && b2.getText().equals("X") && b3.getText().equals("X")) ||
@@ -156,7 +152,7 @@ public class FullscreenActivity extends AppCompatActivity {
     }
 //================Очистка всего поля для новой игры=================
 
-    public static void clearField() {
+    public void clearField() {
         for (int i = 0; i < buttons.size(); i++) {
             buttons.get(i).setText("");
             buttons.get(i).setEnabled(true);
@@ -205,7 +201,6 @@ public class FullscreenActivity extends AppCompatActivity {
             }
         }
     }
-
 //===============Вывод во всплывающем сообщении победителя===========
 
     private void winner(String win) {
@@ -223,7 +218,6 @@ public class FullscreenActivity extends AppCompatActivity {
 
         winner.setGravity(Gravity.CENTER, 0, 0);
         winner.show();
-
 //================Делаем паузу перед началом следующего раунда=========
 
         Handler h = new Handler();
