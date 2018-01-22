@@ -106,6 +106,7 @@ public class FullscreenActivity extends AppCompatActivity {
             round_text.setText("РАУНД " + round);
         }
 //==========================Победа Ноликов==========================
+
         else randomButton();
 
 /* ===============Понадобится при игре без компьютера===============
@@ -125,20 +126,15 @@ public class FullscreenActivity extends AppCompatActivity {
                 round_text.setText("РАУНД " + round);
             }
 */
-
-
-
 //==============================Ничья==============================
 
-             if (turn == 9) {
-                winner("");
-                turn = 0;
-                round++;
-                round_text.setText("РАУНД " + round);
-            }
+        if (turn == 9) {
+            winner("");
+            turn = 0;
+            round++;
+            round_text.setText("РАУНД " + round);
         }
-//    }
-
+    }
 //=========================Проверяем, чей ход======================
 
     private void turn(Button button) {
@@ -148,7 +144,7 @@ public class FullscreenActivity extends AppCompatActivity {
             turn_text.setText("НОЛИКИ");
             lastCommand = "X";
             turn++;
-//==========================Ход Ноликов при игре без компьютера===========
+//====================Ход Ноликов при игре без компьютера===========
 //        } else {
 //            button.setText("O");
 //            turn_text.setText("КРЕСТИКИ");
@@ -157,7 +153,6 @@ public class FullscreenActivity extends AppCompatActivity {
 //        }
             button.setEnabled(false);
         }
-
     }
 //================Очистка всего поля для новой игры=================
 
@@ -167,8 +162,7 @@ public class FullscreenActivity extends AppCompatActivity {
             buttons.get(i).setEnabled(true);
         }
     }
-
-//=============================Ход компьютера==================================
+//======================Ход компьютера===============================
 
     public void randomButton() {
         int[] mainInt = {0, 1, 2, 3, 4, 5, 6, 7, 8};
