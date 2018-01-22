@@ -8,19 +8,22 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import java.util.ArrayList;
 import java.util.Random;
 
 public class FullscreenActivity extends AppCompatActivity {
 
     private static ArrayList<Button> buttons = new ArrayList<>();
+    private Button b1, b2, b3, b4, b5, b6, b7, b8, b9, randomB;
+    private TextView score, round_text;
     private static String lastCommand = "O"; //за кем был последний ход
     private static int x = 0;   //счетчик побед крестиков
     private static int o = 0;   //счетчик побед ноликов
     private static int round = 1;   //счетчик раундов
     private static int turn = 0;    //счетчик ходов
     private static Toast winner;
-    private static Button result;
+    private static boolean win = false;
     TextView turn_text;
 
     @Override
@@ -32,65 +35,56 @@ public class FullscreenActivity extends AppCompatActivity {
 //========================Нажимаем на кнопку========================
 
     public void pushButton(View view) {
-        Button b1 = (Button) findViewById(R.id.first_button);
+        b1 = (Button) findViewById(R.id.first_button);
         buttons.add(b1);
-        Button b2 = (Button) findViewById(R.id.second_button);
+        b2 = (Button) findViewById(R.id.second_button);
         buttons.add(b2);
-        Button b3 = (Button) findViewById(R.id.third_button);
+        b3 = (Button) findViewById(R.id.third_button);
         buttons.add(b3);
-        Button b4 = (Button) findViewById(R.id.fourth_button);
+        b4 = (Button) findViewById(R.id.fourth_button);
         buttons.add(b4);
-        Button b5 = (Button) findViewById(R.id.fith_button);
+        b5 = (Button) findViewById(R.id.fith_button);
         buttons.add(b5);
-        Button b6 = (Button) findViewById(R.id.sixth_button);
+        b6 = (Button) findViewById(R.id.sixth_button);
         buttons.add(b6);
-        Button b7 = (Button) findViewById(R.id.seventh_button);
+        b7 = (Button) findViewById(R.id.seventh_button);
         buttons.add(b7);
-        Button b8 = (Button) findViewById(R.id.eigth_button);
+        b8 = (Button) findViewById(R.id.eigth_button);
         buttons.add(b8);
-        Button b9 = (Button) findViewById(R.id.ninth_button);
+        b9 = (Button) findViewById(R.id.ninth_button);
         buttons.add(b9);
-        TextView score = (TextView) findViewById(R.id.score);
-        TextView round_text = (TextView) findViewById(R.id.round_text);
+        score = (TextView) findViewById(R.id.score);
+        round_text = (TextView) findViewById(R.id.round_text);
 
 //==============Определяем, на какую именно кнопку нажали===============
 
         switch (view.getId()) {
             case R.id.first_button:
                 turn(b1);
-                randomButton();
                 break;
             case R.id.second_button:
                 turn(b2);
-                randomButton();
                 break;
             case R.id.third_button:
                 turn(b3);
-                randomButton();
                 break;
             case R.id.fourth_button:
                 turn(b4);
-                randomButton();
                 break;
             case R.id.fith_button:
                 turn(b5);
-                randomButton();
                 break;
             case R.id.sixth_button:
                 turn(b6);
-                randomButton();
                 break;
             case R.id.seventh_button:
                 turn(b7);
-                randomButton();
                 break;
             case R.id.eigth_button:
                 turn(b8);
-                randomButton();
                 break;
             case R.id.ninth_button:
                 turn(b9);
-                randomButton();
                 break;
         }
 
@@ -110,33 +104,40 @@ public class FullscreenActivity extends AppCompatActivity {
             score.setText(x + " : " + o);
             winner("Крестики");
             round_text.setText("РАУНД " + round);
-
+        }
 //==========================Победа Ноликов==========================
+        else randomButton();
 
-        } else if (b1.getText().equals("O") && b2.getText().equals("O") && b3.getText().equals("O") ||
-                b1.getText().equals("O") && b5.getText().equals("O") && b9.getText().equals("O") ||
-                b1.getText().equals("O") && b4.getText().equals("O") && b7.getText().equals("O") ||
-                b2.getText().equals("O") && b5.getText().equals("O") && b8.getText().equals("O") ||
-                b3.getText().equals("O") && b5.getText().equals("O") && b7.getText().equals("O") ||
-                b3.getText().equals("O") && b6.getText().equals("O") && b9.getText().equals("O") ||
-                b4.getText().equals("O") && b5.getText().equals("O") && b6.getText().equals("O") ||
-                b7.getText().equals("O") && b8.getText().equals("O") && b9.getText().equals("O")) {
-            turn = 0;
-            o++;
-            score.setText(x + " : " + o);
-            winner("Нолики");
-            round++;
-            round_text.setText("РАУНД " + round);
+/* ===============Понадобится при игре без компьютера===============
+            if (b1.getText().equals("O") && b2.getText().equals("O") && b3.getText().equals("O") ||
+                    b1.getText().equals("O") && b5.getText().equals("O") && b9.getText().equals("O") ||
+                    b1.getText().equals("O") && b4.getText().equals("O") && b7.getText().equals("O") ||
+                    b2.getText().equals("O") && b5.getText().equals("O") && b8.getText().equals("O") ||
+                    b3.getText().equals("O") && b5.getText().equals("O") && b7.getText().equals("O") ||
+                    b3.getText().equals("O") && b6.getText().equals("O") && b9.getText().equals("O") ||
+                    b4.getText().equals("O") && b5.getText().equals("O") && b6.getText().equals("O") ||
+                    b7.getText().equals("O") && b8.getText().equals("O") && b9.getText().equals("O")) {
+                turn = 0;
+                o++;
+                score.setText(x + " : " + o);
+                winner("Нолики");
+                round++;
+                round_text.setText("РАУНД " + round);
+            }
+*/
+
+
 
 //==============================Ничья==============================
 
-        } else if (turn == 9) {
-            winner("");
-            turn = 0;
-            round++;
-            round_text.setText("РАУНД " + round);
+             if (turn == 9) {
+                winner("");
+                turn = 0;
+                round++;
+                round_text.setText("РАУНД " + round);
+            }
         }
-    }
+//    }
 
 //=========================Проверяем, чей ход======================
 
@@ -147,6 +148,7 @@ public class FullscreenActivity extends AppCompatActivity {
             turn_text.setText("НОЛИКИ");
             lastCommand = "X";
             turn++;
+//==========================Ход Ноликов при игре без компьютера===========
 //        } else {
 //            button.setText("O");
 //            turn_text.setText("КРЕСТИКИ");
@@ -155,6 +157,7 @@ public class FullscreenActivity extends AppCompatActivity {
 //        }
             button.setEnabled(false);
         }
+
     }
 //================Очистка всего поля для новой игры=================
 
@@ -165,29 +168,46 @@ public class FullscreenActivity extends AppCompatActivity {
         }
     }
 
+//=============================Ход компьютера==================================
+
     public void randomButton() {
         int[] mainInt = {0, 1, 2, 3, 4, 5, 6, 7, 8};
         Random rand = new Random();
-        while(true) {
-            for (int i = 0; i < buttons.size(); i++) {
-                result = buttons.get(mainInt[rand.nextInt(9)]);
-            }
-            if (result.getText().equals("") && lastCommand.equals("X")) {
+
+        for (int i = 0; i < buttons.size(); i++) {
+            randomB = buttons.get(mainInt[rand.nextInt(9)]);
+            if (randomB.getText().equals("") && lastCommand.equals("X") && turn <= 9) {
+
                 Handler h = new Handler();
                 h.postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        result.setText("O");
-                        result.setEnabled(false); //ИСПРАВИТЬ
+                        turn_text.setText("КРЕСТИКИ");
+                        randomB.setText("O");
+                        randomB.setEnabled(false); //ИСПРАВИТЬ
                         lastCommand = "O";
                         turn++;
+                        if (b1.getText().equals("O") && b2.getText().equals("O") && b3.getText().equals("O") ||
+                                b1.getText().equals("O") && b5.getText().equals("O") && b9.getText().equals("O") ||
+                                b1.getText().equals("O") && b4.getText().equals("O") && b7.getText().equals("O") ||
+                                b2.getText().equals("O") && b5.getText().equals("O") && b8.getText().equals("O") ||
+                                b3.getText().equals("O") && b5.getText().equals("O") && b7.getText().equals("O") ||
+                                b3.getText().equals("O") && b6.getText().equals("O") && b9.getText().equals("O") ||
+                                b4.getText().equals("O") && b5.getText().equals("O") && b6.getText().equals("O") ||
+                                b7.getText().equals("O") && b8.getText().equals("O") && b9.getText().equals("O")) {
+                            turn = 0;
+                            o++;
+                            score.setText(x + " : " + o);
+                            winner("Нолики");
+                            round++;
+                            round_text.setText("РАУНД " + round);
+                        }
                     }
                 }, 500);
-                turn_text = (TextView) findViewById(R.id.turn_text);
-                turn_text.setText("КРЕСТИКИ");
+
                 break;
             } else {
-                result = buttons.get(mainInt[rand.nextInt(9)]);
+                randomB = buttons.get(mainInt[rand.nextInt(9)]);
             }
         }
     }
